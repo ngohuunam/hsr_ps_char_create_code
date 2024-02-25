@@ -7,6 +7,7 @@ import ClippedImage from '@/components/ClippedImage';
 import { CharacterDatas, LightconeDatas, RelicsDatas } from "@/data/type";
 import CharacterStat from "@/components/CharacterStat";
 import ColorTag from "@/components/ColorTag";
+import path from 'path';
 
 const EquipmentPage = async ({ params, searchParams }: {
   params: { slug: string }, searchParams: { ids: string[] | undefined }
@@ -15,22 +16,16 @@ const EquipmentPage = async ({ params, searchParams }: {
   const { ids } = searchParams
   console.log("🚀 ~ ids:", ids)
 
-  const fileCharacters = await fs.readFile(process.cwd() + '/data/characters.json', 'utf8');
-  const datasCharacters: CharacterDatas = JSON.parse(fileCharacters);
-  console.log("🚀 ~ datasCharacters:", datasCharacters)
-
-  const relicsFile = await fs.readFile(process.cwd() + '/data/relics.json', 'utf8');
-  const relicsDatas: RelicsDatas = JSON.parse(relicsFile);
-  console.log("🚀 ~ relicsDatas:", relicsDatas)
-
-  const lightconeFile = await fs.readFile(process.cwd() + '/data/lightcones.json', 'utf8');
-  const lightconeDatas: LightconeDatas = JSON.parse(lightconeFile);
-  console.log("🚀 ~ lightconeDatas:", lightconeDatas)
-
-  const width = 500
-  const height = 200
-
   if (ids === undefined) return null
+
+  const fileCharacters = await fs.readFile(path.resolve() + '/data/characters.json', 'utf8');
+  const datasCharacters: CharacterDatas = JSON.parse(fileCharacters);
+
+  const relicsFile = await fs.readFile(path.resolve() + '/data/relics.json', 'utf8');
+  const relicsDatas: RelicsDatas = JSON.parse(relicsFile);
+
+  const lightconeFile = await fs.readFile(path.resolve() + '/data/lightcones.json', 'utf8');
+  const lightconeDatas: LightconeDatas = JSON.parse(lightconeFile);
 
   const charObjs = ids.map(id => datasCharacters.find(_data => _data.id.toString() === id)) as unknown as typeof datasCharacters
 
@@ -41,7 +36,7 @@ const EquipmentPage = async ({ params, searchParams }: {
           <div className="relative overflow-hidden">
             <ColorTag label={charObj.name + " - id " + charObj.id} className="absolute bottom-4 left-4"/>
             <ClippedImage src={`/characters/${charObj.id}.webp`} alt={charObj.name + " image"}
-              {...{ width, height, top: charObj.top, left: charObj.left, scale: charObj.scale }} />
+              {...{ top: charObj.top, left: charObj.left, scale: charObj.scale }} />
           </div>
 
           <CharacterStat {...{charObj, relicsDatas, lightconeDatas}} />

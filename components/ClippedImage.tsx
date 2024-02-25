@@ -5,14 +5,12 @@ import Image from "next/image"
 interface Props {
   src: string
   alt: string
-  width: number
-  height: number
   top: number
   left: number
   scale: number
 }
 
-const ClippedImage: React.FC<Props> = ({ src, alt, width, height, top, left, scale }) => {
+const ClippedImage: React.FC<Props> = ({ src, alt, top, left, scale }) => {
   return (
     <div className="relative overflow-hidden w-full h-52 sm:h-full">
 
