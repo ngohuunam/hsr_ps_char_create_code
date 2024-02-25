@@ -13,8 +13,7 @@ const EquipmentPage = async ({ params, searchParams }: {
 }) => {
 
   const { ids } = searchParams
-
-  if (ids === undefined) return null
+  console.log("🚀 ~ ids:", ids)
 
   const fileCharacters = await fs.readFile(process.cwd() + '/data/characters.json', 'utf8');
   const datasCharacters: CharacterDatas = JSON.parse(fileCharacters);
@@ -28,10 +27,12 @@ const EquipmentPage = async ({ params, searchParams }: {
   const lightconeDatas: LightconeDatas = JSON.parse(lightconeFile);
   console.log("🚀 ~ lightconeDatas:", lightconeDatas)
 
-  const charObjs = ids.map(id => datasCharacters.find(_data => _data.id.toString() === id)) as unknown as typeof datasCharacters
-
   const width = 500
   const height = 200
+
+  if (ids === undefined) return null
+
+  const charObjs = ids.map(id => datasCharacters.find(_data => _data.id.toString() === id)) as unknown as typeof datasCharacters
 
   return (
     <div className=" grid grid-cols-1 gap-1">
